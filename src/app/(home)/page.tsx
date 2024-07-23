@@ -1,5 +1,6 @@
 import TodoList from "@/components/TodoList";
 import TodoListComponent from "@/components/TodoListComponent";
+import TodoListFilter from "@/components/TodoListFilter";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export default function Home() {
     <>
       <TodoList />
       <TodoListComponent />
+      <TodoListFilter />
     </>
   );
 }

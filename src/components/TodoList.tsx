@@ -1,14 +1,23 @@
 "use client";
 
-import { todoListStore } from "@/store/TodoListStore";
-import { useRecoilState } from "recoil";
+import { filteredTodoListState, todoListState } from "@/store/TodoListStore";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function TodoList() {
-  const [todoList, setTodoList] = useRecoilState(todoListStore);
+  const [_, setTodoList] = useRecoilState(todoListState);
+  const todoList = useRecoilValue(filteredTodoListState);
 
-  const handleOnClick = (indexToRemove: number) => {
+  const handleButtonOnClick = (indexToRemove: number) => {
+    setTodoList((old) => old.filter((element) => element.id !== indexToRemove));
+  };
+
+  const handleCheckboxOnClick = (index: number) => {
     setTodoList((old) =>
-      old.filter((_element, index) => index !== indexToRemove)
+      old.map((element) =>
+        element.id === index
+          ? { ...element, isComplete: !element.isComplete }
+          : element
+      )
     );
   };
 
@@ -16,10 +25,18 @@ export default function TodoList() {
     <>
       {todoList.length != 0 ? (
         <ul>
-          {todoList.map((element, index) => (
-            <div className="flex items-center space-x-2" key={index}>
-              <li className="list-none">{element}</li>
-              <button onClick={() => handleOnClick(index)}>제거</button>
+          {todoList.map((element) => (
+            <div className="flex items-center space-x-2" key={element.id}>
+              <li className="list-none">{element.text}</li>
+              <input
+                type="checkbox"
+                checked={element.isComplete}
+                key={element.id}
+                onClick={() => handleCheckboxOnClick(element.id)}
+              />
+              <button onClick={() => handleButtonOnClick(element.id)}>
+                제거
+              </button>
             </div>
           ))}
         </ul>

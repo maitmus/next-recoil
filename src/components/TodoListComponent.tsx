@@ -1,11 +1,11 @@
 "use client";
 
-import { todoListStore } from "@/store/TodoListStore";
+import { getId, todoListState } from "@/store/TodoListStore";
 import { ChangeEvent, useState } from "react";
 import { useRecoilState } from "recoil";
 
 export default function TodoListComponent() {
-  const [_todoList, setTodoList] = useRecoilState(todoListStore);
+  const [_todoList, setTodoList] = useRecoilState(todoListState);
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,14 @@ export default function TodoListComponent() {
       <button
         className="ml-3"
         onClick={() => {
-          setTodoList((old) => [...old, inputValue]);
+          setTodoList((old) => [
+            ...old,
+            {
+              id: getId(),
+              text: inputValue,
+              isComplete: false,
+            },
+          ]);
           setInputValue("");
         }}
       >
