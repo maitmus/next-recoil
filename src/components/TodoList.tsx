@@ -32,7 +32,7 @@ export default function TodoList() {
                 type="checkbox"
                 checked={element.isComplete}
                 key={element.id}
-                onClick={() => handleCheckboxOnClick(element.id)}
+                onChange={() => handleCheckboxOnClick(element.id)}
               />
               <button onClick={() => handleButtonOnClick(element.id)}>
                 제거
