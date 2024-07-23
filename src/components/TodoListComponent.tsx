@@ -14,6 +14,7 @@ export default function TodoListComponent() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!inputValue) return;
     setTodoList((old) => [
       ...old,
       {
