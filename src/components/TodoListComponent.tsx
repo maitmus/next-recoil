@@ -1,7 +1,7 @@
 "use client";
 
 import { getId, todoListState } from "@/store/TodoListStore";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useRecoilState } from "recoil";
 
 export default function TodoListComponent() {
@@ -11,31 +11,31 @@ export default function TodoListComponent() {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setTodoList((old) => [
+      ...old,
+      {
+        id: getId(),
+        text: inputValue,
+        isComplete: false,
+      },
+    ]);
+    setInputValue("");
+  };
+
   return (
-    <div className="mt-4">
+    <form className="mt-4" onSubmit={handleSubmit}>
       <input
         value={inputValue}
         onChange={handleInputChange}
         type="text"
         placeholder="Type something..."
         className="text-black"
+        required
       ></input>
-      <button
-        className="ml-3"
-        onClick={() => {
-          setTodoList((old) => [
-            ...old,
-            {
-              id: getId(),
-              text: inputValue,
-              isComplete: false,
-            },
-          ]);
-          setInputValue("");
-        }}
-      >
-        추가
-      </button>
-    </div>
+      <button className="ml-3">추가</button>
+    </form>
   );
 }
