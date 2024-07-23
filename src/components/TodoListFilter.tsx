@@ -1,17 +1,14 @@
 "use client";
 
 import { todoListFilterState } from "@/store/TodoListStore";
+import { ChangeEvent } from "react";
 import { useRecoilState } from "recoil";
 
 export default function TodoListFilter() {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
 
-  const updateFilter = ({
-    target: { value },
-  }: {
-    target: { value: string };
-  }) => {
-    setFilter(value);
+  const updateFilter = (event: ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value);
   };
   return (
     <>
